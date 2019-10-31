@@ -72,16 +72,14 @@ function superdots-source-dot {
     )
 
     export -f superdots-debug
-    (
-        shopt -s nullglob
-        for order in "${source_order[@]}" ; do
-            superdots-debug "Sourcing files in $order"
-            for file in "$order"/*.sh ; do
-                superdots-debug "Sourcing  $file"
-                . "$file"
-            done
+    for order in "${source_order[@]}" ; do
+        superdots-debug "Sourcing files in $order"
+        for file in "$SUPERDOTS/dots/$order"/*.sh ; do
+            if [[ $file =~ "*" ]] ; then continue ; fi
+            superdots-debug "    $(basename $file)"
+            . "$file"
         done
-    )
+    done
 }
 
 function superdots-localname {
