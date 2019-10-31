@@ -3,3 +3,5 @@
 .*.sw[mnop]
 *.pyc
 tags
+
+dots/*

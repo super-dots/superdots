@@ -6,7 +6,7 @@ THIS_PROG="$0"
 
 
 export SUPERDOTS="$DIR"
-export SUPERDOTS_DEBUG=false
+export SUPERDOTS_DEBUG=${SUPERDOTS_DEBUG:-false}
 
 SUPERDOTS_LOG='/tmp/superdots.log'
 SUPERDOTS_DEPS=(git)
@@ -62,7 +62,7 @@ function superdots-ensure-deps {
     fi
 }
 
-function superdots-source {
+function superdots-source-dot {
     superdots-debug "Sourcing $1"
 
     dot_folder=$(superdots-localname "$1")
@@ -89,15 +89,32 @@ function superdots-localname {
     sed 's^/^-^g' <<<"$github_ns_name"
 }
 
-function superdots-dot-fetch {
+function superdots-fetch-dot {
+    superdots-info "Fetching $1"
     local_path=$(superdots-localname "$1")
-    superdots-info "Fetching $local_path"
 
     target_dir="${SUPERDOTS}/dots/${local_path}"
     git clone \
         "https://github.com/$1" \
         "$target_dir" \
             >"$SUPERDOTS_LOG" 2>&1
+}
+
+function superdots-update-dot {
+    local_path=$(superdots-localname "$1")
+
+    target_dir="${SUPERDOTS}/dots/${local_path}"
+    if [ ! -e "$target_dir" ] ; then
+        superdots-warn "Declared superdot $1 does has not been installed"
+        return 1
+    fi
+
+    superdots-info "Updating $local_path"
+    (
+        cd $target_dir
+        git pull origin $(git rev-parse --abbrev-ref HEAD) >"$SUPERDOTS_LOG" 2>&1 
+    )
+    superdots-info "    Done"
 }
 
 # superdot super-dots/default-dots
@@ -116,7 +133,31 @@ function superdots-install {
     superdots-debug "Installing"
 
     for dot in "${DOTS[@]}" ; do
-        superdots-dot-fetch "$dot"
-        superdots-source "$dot"
+        superdots-fetch-dot "$dot"
+        superdots-source-dot "$dot"
     done
 }
+
+function superdots-update {
+    superdots-ensure-deps "${SUPERDOTS_DEPS[@]}"
+    if [ $? -ne 0 ] ; then
+        superdots-err "Missing dependencies, bailing installation"
+        return 1
+    fi
+
+    superdots-debug "Updating"
+
+    for dot in "${DOTS[@]}" ; do
+        superdots-update-dot "$dot"
+        superdots-source-dot "$dot"
+    done
+}
+
+function superdots-init {
+    local_dots=(system local)
+    for dot in "${local_dots[@]}" "${DOTS[@]}" ; do
+        superdots-source-dot "$dot"
+    done
+}
+
+superdots-init
