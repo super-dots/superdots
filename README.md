@@ -58,33 +58,26 @@ git clone https://github.com/super-dots/superdots ~/.superdots
 
 System functions that you will use with superdots are:
 
-| Command             | Example                                   | Note                                                                                            |
-|---------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------|
-| `superdots`         | `superdots a-user/a-superdots-repository` | Records https://github.com/a-user/a-superdots-repository as being a referenced superdots plugin |
-| `superdots-install` | `superdots-install`                       | Ensures that all referenced superdots plugins are installed                                     |
-| `superdots-update`  | `superdots-update`                        | Ensures that all referenced superdots plugins are updated                                       |
-|---------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------|
+| Command             | Example                        | Note                                       |
+|---------------------|--------------------------------|--------------------------------------------|
+| `superdots`         | `superdots a-user/a-superdots` | Records github.com/a-user/a-superdots      |
+| `superdots-install` | `superdots-install`            | Ensures all recorded plugins are installed |
+| `superdots-update`  | `superdots-update`             | Updates all recorded superdots plugins     |
 
 ## Efficiency Functions
 
 Core functions of superdots are:
 
-| Command   | Example            | Note                                                                                                                           |
-|-----------|--------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| `fn_edit` | `fn_edit python`   | Open the `${SUPERDOTS}/dots/local/bash-sources/python.sh` file for editing in vim                                              |
-| `fn_new`  | `fn_new python`    | Open the `${SUPERDOTS}/dots/local/bash-sources/python.sh` file, and expand a few UltiSnips for defining new bash functions     |
-| `fn_new`  | `fn_new new_file`  | Create the `${SUPERDOTS}/dots/local/bash-sources/new_file.sh` file, and expand a few UltiSnips for defining new bash functions |
-| `fn`      | `fn a_function`    | A proxy to support tab-completion with superdots functions                                                                     |
-| `work`    | `work new_project` | Creates or reattaches to an existing tmux session named `new_project`                                                          |
-|-----------|--------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| Command   | Example            | Note                                                                          |
+|-----------|--------------------|-------------------------------------------------------------------------------|
+| `fn_edit` | `fn_edit python`   | Edit `${SUPERDOTS}/dots/local/bash-sources/python.sh` file for editing in vim |
+| `fn_new`  | `fn_new python`    | Expand new_fn snippet within `${SUPERDOTS}/dots/local/bash-sources/python.sh` |
+| `fn`      | `fn a_function`    | A proxy to support tab-completion with superdots-specific functions           |
+| `work`    | `work new_project` | Creates or reattaches to an existing tmux session named `new_project`         |
 
 ### Fn Functions
 
 `fn_edit`
-
-TODO add gif
-
-`fn_new`
 
 TODO add gif
 
