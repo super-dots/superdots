@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 THIS_PROG="$0"
 
 
-export SUPERDOTS="$DIR"
+export SUPERDOTS=${SUPERDOTS:-$DIR}
 export SUPERDOTS_DEBUG=${SUPERDOTS_DEBUG:-false}
 
 SUPERDOTS_LOG='/tmp/superdots.log'

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+
+set -e
+
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+SUPERDOTS_DIR="${DIR}/../"
+THIS_PROG="$0"
+
+
+function source_vimrc {
+    echo -e "source \${SUPERDOTS}/.vimrc" >> "${HOME}"/.vimrc
+    mkdir -p "${HOME}"/.vim/autoload
+}
+
+function source_bashrc {
+    bashrc="${HOME}/.bashrc"
+    if [ ! -f "$bashrc" ] ; then
+        touch "$bashrc"
+    fi
+    # prepend
+    echo -e "export SUPERDOTS=\"${SUPERDOTS_DIR}\"\n$(cat "$bashrc")" > "$bashrc"
+    # append
+    echo "source \${SUPERDOTS}/.bashrc" >> "$bashrc"
+}
+
+function source_tmuxconf {
+    echo -e "source \${SUPERDOTS}/.tmux.conf" >> "${HOME}"/.tmux.conf
+}
+
+function source_screenrc {
+    echo -e "source \${SUPERDOTS}/.screenrc" >> "${HOME}"/.screenrc
+}
+
+
+source_vimrc
+source_bashrc
+source_tmuxconf
+source_screenrc
