@@ -1,0 +1,7 @@
+# gitignore
+
+.*.sw[mnop]
+*.pyc
+tags
+
+dots/*
