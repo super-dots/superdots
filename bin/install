@@ -22,15 +22,15 @@ function source_bashrc {
     # prepend
     echo -e "export SUPERDOTS=\"${SUPERDOTS_DIR}\"\n$(cat "$bashrc")" > "$bashrc"
     # append
-    echo "source \${SUPERDOTS}/.bashrc" >> "$bashrc"
+    echo "source \${SUPERDOTS}/bash_init.sh" >> "$bashrc"
 }
 
 function source_tmuxconf {
-    echo -e "source \${SUPERDOTS}/.tmux.conf" >> "${HOME}"/.tmux.conf
+    echo -e "source \${SUPERDOTS}/tmux_init.conf" >> "${HOME}"/.tmux.conf
 }
 
 function source_screenrc {
-    echo -e "source \${SUPERDOTS}/.screenrc" >> "${HOME}"/.screenrc
+    echo -e "source \${SUPERDOTS}/screen_init.screen" >> "${HOME}"/.screenrc
 }
 
 

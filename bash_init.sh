@@ -7,9 +7,9 @@ THIS_PROG="$0"
 
 export SUPERDOTS=${SUPERDOTS:-$DIR}
 export SUPERDOTS_DEBUG=${SUPERDOTS_DEBUG:-false}
-
 SUPERDOTS_LOG='/tmp/superdots.log'
 SUPERDOTS_DEPS=(git)
+
 
 DOTS=()
 
@@ -152,8 +152,8 @@ function superdots-update {
 }
 
 function superdots-init {
-    local_dots=(system local)
-    for dot in "${local_dots[@]}" "${DOTS[@]}" ; do
+    # load system dots first, then plugins, then any local dots
+    for dot in system "${DOTS[@]}" local ; do
         superdots-source-dot "$dot"
     done
 }

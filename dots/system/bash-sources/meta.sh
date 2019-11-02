@@ -37,7 +37,7 @@ function fn_new {
         snippet="new_bash_fn_plain\\<c-l>"
     else
         start_cmd="0i"
-        snippet="new_bash_fn\\<c-l>\\<c-l>\\<c-j>"
+        snippet="new_bash_fn_file\\<c-l>\\<c-l>\\<c-j>"
     fi
 
     vim \
