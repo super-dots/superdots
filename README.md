@@ -54,6 +54,8 @@ git clone https://github.com/super-dots/superdots ~/.superdots
 ~/.superdots/bin/install
 ```
 
+![superdots_install](https://user-images.githubusercontent.com/5090146/68075572-ab10b080-fd66-11e9-8e43-91c91a826aa5.gif)
+
 ## System Functions
 
 System functions that you will use with superdots are:
