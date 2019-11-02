@@ -9,8 +9,58 @@ SUPERDOTS_DIR="${DIR}/../"
 THIS_PROG="$0"
 
 
+function superdots-echo {
+    level=$1
+    shift
+
+    if [ "$level" = "DEBUG" ] && [ $SUPERDOTS_DEBUG = false ] ; then
+        return 0
+    fi
+
+    echo "..SUPERDOTS.. ${level} $@"
+}
+
+function superdots-debug {
+    superdots-echo "DEBUG" "$@"
+}
+
+function superdots-info {
+    superdots-echo " INFO" "$@"
+}
+
+function superdots-warn {
+    superdots-echo " WARN" "$@"
+}
+
+function superdots-err {
+    superdots-echo "  ERR" "$@"
+}
+
+
+function superdots-ensure-deps {
+    # superdots requires the following to be able to function correctly:
+
+    ensured=true
+
+    while [ $# -gt 0 ] ; do
+        dep=$1
+        shift
+        if ! command -v "$dep" 2>&1 >/dev/null ; then
+            superdots-err "Missing dependency '${dep}'"
+            ensured=false
+        fi
+    done
+
+    if [ $ensured = false ] ; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+
 function source_vimrc {
-    echo -e "source \${SUPERDOTS}/.vimrc" >> "${HOME}"/.vimrc
+    echo -e "source \${SUPERDOTS}/vim_init.vim" >> "${HOME}"/.vimrc
     mkdir -p "${HOME}"/.vim/autoload
 }
 
@@ -33,6 +83,15 @@ function source_screenrc {
     echo -e "source \${SUPERDOTS}/screen_init.screen" >> "${HOME}"/.screenrc
 }
 
+
+superdots-ensure-deps \
+    git \
+    tmux \
+    curl \
+    vim
+if [ $? -ne 0 ] ; then
+    exit 1
+fi
 
 source_vimrc
 source_bashrc

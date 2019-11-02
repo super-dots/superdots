@@ -18,7 +18,7 @@ call plug#end()
 
 
 function! s:source_dot(dot_dir)
-    for f in split(glob(a:dot_dir."/*.vim"), '\n')
+    for f in split(glob(a:dot_dir."/vim-sources/*.vim"), '\n')
         exe 'source' f
     endfor
 endfunction
