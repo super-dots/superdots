@@ -97,3 +97,5 @@ source_vimrc
 source_bashrc
 source_tmuxconf
 source_screenrc
+
+source ~/.bashrc
