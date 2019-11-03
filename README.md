@@ -60,11 +60,13 @@ git clone https://github.com/super-dots/superdots ~/.superdots
 
 System functions that you will use with superdots are:
 
-| Command             | Example                        | Note                                       |
-|---------------------|--------------------------------|--------------------------------------------|
-| `superdots`         | `superdots a-user/a-superdots` | Records github.com/a-user/a-superdots      |
-| `superdots-install` | `superdots-install`            | Ensures all recorded plugins are installed |
-| `superdots-update`  | `superdots-update`             | Updates all recorded superdots plugins     |
+| Command             | Example                                      | Note                                       |
+|---------------------|----------------------------------------------|--------------------------------------------|
+| `superdots`         | `superdots a-user/a-superdots`               | Records github.com/a-user/a-superdots      |
+|                     | `superdots git@some.host:group/project.git`  |                                            |
+|                     | `superdots https://github.com/group/project` |                                            |
+| `superdots-install` | `superdots-install`                          | Ensures all recorded plugins are installed |
+| `superdots-update`  | `superdots-update`                           | Updates all recorded superdots plugins     |
 
 ## Efficiency Functions
 

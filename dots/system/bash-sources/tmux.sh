@@ -20,8 +20,11 @@ function _init_tmux_confs {
     # it needs to always exist
     touch "$SUPERDOTS_INTERMEDIATE_PATH"
 
+    superdots-debug "Initializing superdots combined tmux.conf at $SUPERDOTS_INTERMEDIATE_PATH"
+
     function _source_tmux_file {
         if [ ! -e "$1" ] ; then return ; fi
+        superdots-debug "    Sourcing tmux_init.conf at $1"
         echo "source $1" >> "$SUPERDOTS_INTERMEDIATE_PATH"
     }
 
