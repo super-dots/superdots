@@ -5,7 +5,27 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 THIS_PROG="$0"
 
 
-export SUPERDOTS=${SUPERDOTS:-$DIR}
+function superdots-realpath {
+    if command -v realpath >/dev/null 2>&1 ; then
+        realpath "$@"
+    else
+        # for OSX and other platforms that may be missing realpath
+        # https://stackoverflow.com/a/18443300/606473
+        local start_pwd=$PWD
+        cd "$(dirname "$1")"
+        local link=$(readlink "$(basename "$1")")
+        while [ "$link" ]; do
+          cd "$(dirname "$link")"
+          local link=$(readlink "$(basename "$1")")
+        done
+        local real_path="$PWD/$(basename "$1")"
+        cd "$start_pwd"
+        echo "$real_path"
+    fi
+}
+
+
+export SUPERDOTS=$(superdots-realpath "${SUPERDOTS:-$DIR}")
 export SUPERDOTS_DEBUG=${SUPERDOTS_DEBUG:-false}
 SUPERDOTS_LOG='/tmp/superdots.log'
 SUPERDOTS_DEPS=(git)
@@ -15,7 +35,7 @@ DOTS=()
 
 
 function superdots-echo {
-    level=$1
+    local level=$1
     shift
 
     if [ "$level" = "DEBUG" ] && [ $SUPERDOTS_DEBUG = false ] ; then
@@ -44,14 +64,14 @@ function superdots-err {
 function superdots-ensure-deps {
     # superdots requires the following to be able to function correctly:
 
-    ensured=true
+    local ensured=true
 
     while [ $# -gt 0 ] ; do
-        dep=$1
+        local dep=$1
         shift
         if ! command -v "$dep" 2>&1 >/dev/null ; then
             superdots-err "Missing dependency '${dep}'"
-            ensured=false
+            local ensured=false
         fi
     done
 
@@ -65,8 +85,8 @@ function superdots-ensure-deps {
 function superdots-source-dot {
     superdots-debug "Sourcing $1"
 
-    dot_folder=$(superdots-localname "$1")
-    source_order=(
+    local dot_folder=$(superdots-localname "$1")
+    local source_order=(
         "${dot_folder}/bash-source-pre"
         "${dot_folder}/bash-sources"
     )
@@ -83,15 +103,15 @@ function superdots-source-dot {
 }
 
 function superdots-localname {
-    github_ns_name="$1" # github.com/ns/name
+    local github_ns_name="$1" # github.com/ns/name
     sed 's^/^-^g' <<<"$github_ns_name"
 }
 
 function superdots-fetch-dot {
     superdots-info "Fetching $1"
-    local_path=$(superdots-localname "$1")
+    local local_path=$(superdots-localname "$1")
 
-    target_dir="${SUPERDOTS}/dots/${local_path}"
+    local target_dir="${SUPERDOTS}/dots/${local_path}"
     git clone \
         "https://github.com/$1" \
         "$target_dir" \
@@ -99,9 +119,9 @@ function superdots-fetch-dot {
 }
 
 function superdots-update-dot {
-    local_path=$(superdots-localname "$1")
+    local local_path=$(superdots-localname "$1")
 
-    target_dir="${SUPERDOTS}/dots/${local_path}"
+    local target_dir="${SUPERDOTS}/dots/${local_path}"
     if [ ! -e "$target_dir" ] ; then
         superdots-warn "Declared superdot $1 does has not been installed"
         return 1
