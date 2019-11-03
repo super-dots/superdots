@@ -1,0 +1,30 @@
+snippet #!
+#!/usr/bin/env bash
+
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+THIS_PROG="\$0"
+
+
+$0
+endsnippet
+
+snippet new_bash_fn_file
+#!${1:}function ${2:new_fn} {
+    if [ $# -ne 1 ] ; then
+        echo "USAGE: $2 ${3:FILENAME}"
+        return 1
+    fi
+    $0
+}
+endsnippet
+
+snippet new_bash_fn_plain
+function ${1:new_fn} {
+    if [ $# -ne 1 ] ; then
+        echo "USAGE: $1 ${2:FILENAME}"
+        return 1
+    fi
+    $0
+}
+endsnippet

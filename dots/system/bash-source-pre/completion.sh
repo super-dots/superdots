@@ -15,8 +15,8 @@
 #     }
 #
 function add_completion {
-    fn_name="$1"
-    completion_fn="$2"
+    local fn_name="$1"
+    local completion_fn="$2"
 
     local tmp_fn="_${fn_name}__completion__"
     local func_def=""

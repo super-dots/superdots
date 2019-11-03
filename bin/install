@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+
+
+set -e
+
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+SUPERDOTS_DIR="${DIR}/../"
+THIS_PROG="$0"
+
+function superdots-realpath {
+    if command -v realpath >/dev/null 2>&1 ; then
+        realpath "$@"
+    else
+        # for OSX and other platforms that may be missing realpath
+        # https://stackoverflow.com/a/18443300/606473
+        local start_pwd=$PWD
+        cd "$(dirname "$1")"
+        local link=$(readlink "$(basename "$1")")
+        while [ "$link" ]; do
+          cd "$(dirname "$link")"
+          local link=$(readlink "$(basename "$1")")
+        done
+        local real_path="$PWD/$(basename "$1")"
+        cd "$start_pwd"
+        echo "$real_path"
+    fi
+}
+
+function superdots-echo {
+    local level=$1
+    shift
+
+    if [ "$level" = "DEBUG" ] && [ $SUPERDOTS_DEBUG = false ] ; then
+        return 0
+    fi
+
+    echo "..SUPERDOTS.. ${level} $@"
+}
+
+function superdots-debug {
+    superdots-echo "DEBUG" "$@"
+}
+
+function superdots-info {
+    superdots-echo " INFO" "$@"
+}
+
+function superdots-warn {
+    superdots-echo " WARN" "$@"
+}
+
+function superdots-err {
+    superdots-echo "  ERR" "$@"
+}
+
+
+function superdots-ensure-deps {
+    # superdots requires the following to be able to function correctly:
+
+    local ensured=true
+
+    while [ $# -gt 0 ] ; do
+        local dep=$1
+        shift
+        if ! command -v "$dep" 2>&1 >/dev/null ; then
+            superdots-err "Missing dependency '${dep}'"
+            local ensured=false
+        fi
+    done
+
+    if [ $ensured = false ] ; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+
+function source_vimrc {
+    echo -e "source \${SUPERDOTS}/vim_init.vim" >> "${HOME}"/.vimrc
+    mkdir -p "${HOME}"/.vim/autoload
+}
+
+function source_bashrc {
+    local bashrc="${HOME}/.bashrc"
+    if [ ! -f "$bashrc" ] ; then
+        touch "$bashrc"
+    fi
+    # prepend
+    local full_path="$(superdots-realpath "$SUPERDOTS_DIR")"
+    # append
+    echo "source \"$full_path/bash_init.sh\"" >> "$bashrc"
+}
+
+function source_tmuxconf {
+    echo -e "source \${SUPERDOTS}/tmux_init.conf" >> "${HOME}"/.tmux.conf
+}
+
+
+superdots-ensure-deps \
+    git \
+    tmux \
+    curl \
+    vim
+if [ $? -ne 0 ] ; then
+    exit 1
+fi
+
+source_vimrc
+source_bashrc
+source_tmuxconf
+
+source ~/.bashrc

@@ -29,15 +29,15 @@ function fn_new {
         return 1
     fi
 
-    fn="$1"
-    fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
+    local fn="$1"
+    local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
 
     if [ -e "${fnpath}" ] ; then
-        start_cmd="Go\\<cr>"
-        snippet="new_bash_fn_plain\\<c-l>"
+        local start_cmd="Go\\<cr>"
+        local snippet="new_bash_fn_plain\\<c-l>"
     else
-        start_cmd="0i"
-        snippet="new_bash_fn\\<c-l>\\<c-l>\\<c-j>"
+        local start_cmd="0i"
+        local snippet="new_bash_fn_file\\<c-l>\\<c-l>\\<c-j>"
     fi
 
     vim \
@@ -59,8 +59,8 @@ function fn_edit {
         return 1
     fi
 
-    fn="$1"
-    fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
+    local fn="$1"
+    local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
 
     if [ ! -e "${fnpath}" ] ; then
         fn_new $fn
@@ -82,7 +82,7 @@ function fn {
         return 1
     fi
 
-    fn="$1"
+    local fn="$1"
     shift
     $fn "$@"
 }
