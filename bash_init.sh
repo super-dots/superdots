@@ -86,6 +86,11 @@ function superdots-source-dot {
     superdots-debug "Sourcing $1"
 
     local dot_folder=$(superdots-localname "$1")
+    if [ ! -e "$SUPERDOTS/dots/$dot_folder" ] ; then
+        superdots-warn "Superdots $1 has not been installed"
+        return
+    fi
+
     local source_order=(
         "${dot_folder}/bash-source-pre"
         "${dot_folder}/bash-sources"
@@ -137,8 +142,10 @@ function superdots-update-dot {
 
 # superdot super-dots/default-dots
 function superdots {
-    superdots-debug "Adding $1 as superdot"
+    superdots-debug "Recording $1 as superdot"
     DOTS+=("$1")
+    # load them as they're declared - if they exist
+    superdots-source-dot "$1"
 }
 
 function superdots-install {
