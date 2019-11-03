@@ -136,7 +136,7 @@ function superdots-update-dot {
 }
 
 # superdot super-dots/default-dots
-function superdot {
+function superdots {
     superdots-debug "Adding $1 as superdot"
     DOTS+=("$1")
 }
