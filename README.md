@@ -107,8 +107,10 @@ TODO add gif
 
 ## Plugins
 
-After installing superdots, you can add superdots to your `~/.bashrc` that
-define your referenced superdots plugins:
+### Using Existing Plugins
+
+After installing superdots, you can record references to external superdots
+plugins in your `~/.bashrc` with:
 
 ```bash
 # ~/.bashrc
@@ -127,13 +129,13 @@ unverified vim plugins, or installing 1000s of node packages through npm. Be
 smart, and exercise the same caution that you do with other package and plugin
 managers.
 
-### Using Existing Plugins
-
 ### Creating Plugins
 
-Creating your own superdots plugin is straightforward.
+Creating your own superdots plugin is straightforward. For best results, use
+the [plugin-template](https://github.com/super-dots/plugin-template)
+cookiecutter template to initialize a new superdots plugin.
 
-The minimum requirements are a directory structure as shown below:
+The minimum requirement is a directory structure as shown below:
 
 ```
 ./
