@@ -42,7 +42,7 @@ function superdots-echo {
         return 0
     fi
 
-    echo "..SUPERDOTS.. ${level} $@"
+    >&2 echo "..SUPERDOTS.. ${level} $@"
 }
 
 function superdots-debug {
@@ -108,19 +108,39 @@ function superdots-source-dot {
 }
 
 function superdots-localname {
-    local github_ns_name="$1" # github.com/ns/name
-    sed 's^/^-^g' <<<"$github_ns_name"
+    local project_name=$(sed 's^.*:/*^^' <<<"$1")
+    local project_name=$(sed 's^\.git$^^' <<<"$project_name")
+    local project_name=$(sed 's^[/\.][/\.]*^-^g' <<<"$project_name")
+    echo $project_name
+}
+
+function superdots-clone-url {
+    local regex='^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$'
+    if [[ "$1" =~ $regex ]] ; then 
+        echo "https://github.com/$1"
+    else
+        echo $1
+    fi
 }
 
 function superdots-fetch-dot {
     superdots-info "Fetching $1"
     local local_path=$(superdots-localname "$1")
+    local clone_url=$(superdots-clone-url "$1")
+
+    superdots-debug "Cloning $clone_url to $local_path"
 
     local target_dir="${SUPERDOTS}/dots/${local_path}"
     git clone \
-        "https://github.com/$1" \
+        "$clone_url" \
         "$target_dir" \
             >"$SUPERDOTS_LOG" 2>&1
+
+    if [ $? -ne 0 ] ; then
+        superdots-warn "Could not clone $clone_url, see $SUPERDOTS_LOG"
+    else
+        superdots-info "Installed"
+    fi
 }
 
 function superdots-update-dot {
@@ -155,7 +175,7 @@ function superdots-install {
         return 1
     fi
 
-    superdots-debug "Installing"
+    superdots-debug "Ensuring ${#DOTS[@]} superdots are installed"
 
     for dot in "${DOTS[@]}" ; do
         superdots-fetch-dot "$dot"
