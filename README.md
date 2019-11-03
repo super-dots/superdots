@@ -138,9 +138,9 @@ has:
 
 ---
 
-| repo                                                            | stars                                                                                  | contributors                                                                            | description            |
-|-----------------------------------------------------------------|----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------|
-| [d0c-s4vage/superdots](https://github.com/d0c-s4vage/superdots) | ![GitHub stars](https://img.shields.io/github/stars/d0c-s4vage/superdots?style=social) | ![GitHub contributors](https://img.shields.io/github/contributors/d0c-s4vage/superdots) | d0c-s4vage's superdots |
+| repo                                                                  | stars                                                                                     | contributors                                                                               | description                     |
+|-----------------------------------------------------------------------|-------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|---------------------------------|
+| [d0c-s4vage/my-superdots](https://github.com/d0c-s4vage/my-superdots) | ![GitHub stars](https://img.shields.io/github/stars/d0c-s4vage/my-superdots?style=social) | ![GitHub contributors](https://img.shields.io/github/contributors/d0c-s4vage/my-superdots) | d0c-s4vage's personal superdots |
 
 ### Creating Plugins
 
