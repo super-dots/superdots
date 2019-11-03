@@ -129,6 +129,19 @@ unverified vim plugins, or installing 1000s of node packages through npm. Be
 smart, and exercise the same caution that you do with other package and plugin
 managers.
 
+A list of plugins is kept below, sorted by the number of stars the repository
+has:
+
+---
+
+**DISCLAIMER** The maintainers of superdots make no claim as to the reliability, security, or intentions of the following superdots plugins. |
+
+---
+
+| repo                                                            | stars                                                                                  | contributors                                                                            | description            |
+|-----------------------------------------------------------------|----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------|
+| [d0c-s4vage/superdots](https://github.com/d0c-s4vage/superdots) | ![GitHub stars](https://img.shields.io/github/stars/d0c-s4vage/superdots?style=social) | ![GitHub contributors](https://img.shields.io/github/contributors/d0c-s4vage/superdots) | d0c-s4vage's superdots |
+
 ### Creating Plugins
 
 Creating your own superdots plugin is straightforward. For best results, use
