@@ -15,5 +15,4 @@ if !exists("g:UltiSnipsSnippetDirectories")
 endif
 
 " use the local directory for editing, but source snippets from here
-let g:UltiSnipsSnippetsDir=s:this_dir."/../../local/vim-sources/ultisnippets"
 let g:UltiSnipsSnippetDirectories=add(g:UltiSnipsSnippetDirectories, s:this_dir."/ultisnippets")

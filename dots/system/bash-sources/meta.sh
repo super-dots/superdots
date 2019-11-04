@@ -32,17 +32,7 @@ function fn_new {
     local fn="$1"
     local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
 
-    if [ -e "${fnpath}" ] ; then
-        local start_cmd="Go\\<cr>"
-        local snippet="new_bash_fn_plain\\<c-l>"
-    else
-        local start_cmd="0i"
-        local snippet="new_bash_fn_file\\<c-l>\\<c-l>\\<c-j>"
-    fi
-
-    vim \
-        -s <(echo -e ':execute "normal '${start_cmd}${snippet}'"') \
-        "$fnpath"
+    $EDITOR $fnpath
     
     if [ -e "$fnpath" ] ; then
         source "$fnpath"
@@ -67,7 +57,7 @@ function fn_edit {
         return $?
     fi
 
-    vim "${fnpath}"
+    $EDITOR $fnpath
 
     if [ -f "${fnpath}" ] ; then
         source "${fnpath}"
