@@ -178,13 +178,15 @@ The minimum requirement is a directory structure as shown below:
 3 directories, 0 files
 ```
 
-If this is saved on Github, it can be added to your `~/.bashrc` as a superdots
-plugin with the `superdots` command:
+Your plugin can be added to your `~/.bashrc` as a superdots plugin with the
+`superdots` command:
 
 ```bash
 # ~/.bashrc
 
-superdots my-username/my-superdots-plugin
+superdots my-username/my-superdots-plugin # Github
+superdots git@somewhere.else:my-username/my-superdots-plugin.git # elsewhere
+superdots https://gitlab.com/my-username/my-superdots-plugin.git # elsewhere
 ```
 
 This functionality should feel similar to [vim-plug](https://github.com/junegunn/vim-plug).
