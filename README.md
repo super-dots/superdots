@@ -158,6 +158,7 @@ has:
 
 | repo                                                                  | stars                                                                                     | contributors                                                                               | description                     |
 |-----------------------------------------------------------------------|-------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|---------------------------------|
+| [super-dots/fn-vim](https://github.com/super-dots/fn-vim)             | ![GitHub stars](https://img.shields.io/github/stars/super-dots/fn-vim?style=social)       | ![GitHub contributors](https://img.shields.io/github/contributors/super-dots/fn-vim)       | Vim-specific `fn*` integrations |
 | [d0c-s4vage/my-superdots](https://github.com/d0c-s4vage/my-superdots) | ![GitHub stars](https://img.shields.io/github/stars/d0c-s4vage/my-superdots?style=social) | ![GitHub contributors](https://img.shields.io/github/contributors/d0c-s4vage/my-superdots) | d0c-s4vage's personal superdots |
 
 ### Creating Plugins
