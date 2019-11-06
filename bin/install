@@ -101,8 +101,7 @@ function source_tmuxconf {
 superdots-ensure-deps \
     git \
     tmux \
-    curl \
-    vim
+    curl
 if [ $? -ne 0 ] ; then
     exit 1
 fi

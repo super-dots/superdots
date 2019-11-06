@@ -22,10 +22,25 @@ function _fn_fn_completion {
         | uniq
 }
 
+function _ensure_editor {
+    if [ -z "$EDITOR" ] ; then
+        superdots-warn "EDITOR is not set"
+        superdots-warn "Please set the EDITOR environment variable"
+        superdots-warn "E.g."
+        superdots-warn "    export EDITOR=vim"
+        superdots-warn ""
+        return 1
+    fi
+}
+
 add_completion fn_new _fn_file_completion
 function fn_new {
     if [ $# -ne 1 ] ; then
         echo "USAGE: fn_new FN_FILE_NAME"
+        return 1
+    fi
+
+    if ! _ensure_editor then
         return 1
     fi
 
@@ -45,7 +60,11 @@ function fn_new {
 add_completion fn_edit _fn_file_completion
 function fn_edit {
     if [ $# -ne 1 ] ; then
-        echo "USAGE: edit_fn FN_FILE_NAME"
+        echo "USAGE: fn_edit FN_FILE_NAME"
+        return 1
+    fi
+
+    if ! _ensure_editor then
         return 1
     fi
 
