@@ -40,7 +40,7 @@ function fn_new {
         return 1
     fi
 
-    if ! _ensure_editor then
+    if ! _ensure_editor ; then
         return 1
     fi
 
@@ -64,7 +64,7 @@ function fn_edit {
         return 1
     fi
 
-    if ! _ensure_editor then
+    if ! _ensure_editor ; then
         return 1
     fi
 
