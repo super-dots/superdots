@@ -56,6 +56,22 @@ git clone https://github.com/super-dots/superdots ~/.superdots
 
 ![superdots_install](https://user-images.githubusercontent.com/5090146/68075572-ab10b080-fd66-11e9-8e43-91c91a826aa5.gif)
 
+**NOTE**: superdots currently comes default with the [fn-vim](https://github.com/super-dots/fn-vim)
+plugin, which adds nicer support for `fn*` functions in vim. If you want a
+completely clean super-dots installation, use the `--bare` flag when running
+`bin/install`:
+
+```
+USAGE: bin/install [--bare] [--help]
+
+This script installs superdots. The default installation comes with
+fn-vim installed as a plugin. Use the '--bare' option to install a
+bare superdots:
+
+            --bare      Do not install any default plugins
+            --help,-h   Show this help message
+```
+
 ## System Functions
 
 System functions that you will use with superdots are:

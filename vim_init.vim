@@ -2,21 +2,6 @@ set encoding=utf-8
 let s:this_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
 
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  let s:path = expand('<sfile>:p')
-  autocmd VimEnter * PlugInstall --sync | exit
-endif
-
-
-" vim-plug
-call plug#begin('~/.vim/plugged')
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
-call plug#end()
-
-
 function! s:source_dot(dot_dir)
     for f in split(glob(a:dot_dir."/vim-sources/*.vim"), '\n')
         exe 'source' f
