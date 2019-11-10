@@ -214,3 +214,15 @@ slowly from:
 
 Superdots takes inspiration from vim's plugin structure, specifically
 [vim-plug](https://github.com/junegunn/vim-plug)'s approach to it.
+
+## Notes
+
+### Vim-Plug
+
+Be aware that vim-plug currently doesn't support multiple plugin sections. See
+
+* [vim-plug#300](https://github.com/junegunn/vim-plug/issues/300)
+* [vim-plug#615](https://github.com/junegunn/vim-plug/issues/615)
+
+The last superdots plugin loaded will have the final say on vim-plug
+definitions.
