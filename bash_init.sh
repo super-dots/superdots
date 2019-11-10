@@ -31,7 +31,7 @@ SUPERDOTS_LOG='/tmp/superdots.log'
 SUPERDOTS_DEPS=(git)
 
 
-DOTS=()
+DOTS_LIST=()
 
 
 function superdots-echo {
@@ -163,7 +163,15 @@ function superdots-update-dot {
 # superdot super-dots/default-dots
 function superdots {
     superdots-debug "Recording $1 as superdot"
-    DOTS+=("$1")
+    DOTS_LIST+=("$1")
+
+    local dots=""
+    for dot_name in "${DOTS_LIST[@]}" ; do
+        if [ ! -z "$dots" ] ; then dots="$dots|" ; fi
+        dots="$dots$(superdots-localname "$dot_name")"
+    done
+    export DOTS="$dots"
+
     # load them as they're declared - if they exist
     superdots-source-dot "$1"
 }
@@ -175,9 +183,9 @@ function superdots-install {
         return 1
     fi
 
-    superdots-debug "Ensuring ${#DOTS[@]} superdots are installed"
+    superdots-debug "Ensuring ${#DOTS_LIST[@]} superdots are installed"
 
-    for dot in "${DOTS[@]}" ; do
+    for dot in "${DOTS_LIST[@]}" ; do
         superdots-fetch-dot "$dot"
         superdots-source-dot "$dot"
     done
@@ -192,7 +200,7 @@ function superdots-update {
 
     superdots-debug "Updating"
 
-    for dot in "${DOTS[@]}" ; do
+    for dot in "${DOTS_LIST[@]}" ; do
         superdots-update-dot "$dot"
         superdots-source-dot "$dot"
     done
@@ -200,7 +208,7 @@ function superdots-update {
 
 function superdots-init {
     # load system dots first, then plugins, then any local dots
-    for dot in system "${DOTS[@]}" local ; do
+    for dot in system "${DOTS_LIST[@]}" local ; do
         superdots-source-dot "$dot"
     done
 }
