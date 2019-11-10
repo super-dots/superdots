@@ -9,15 +9,12 @@ function! s:source_dot(dot_dir)
 endfunction
 
 
-let s:vim_scripts_dirs = expand(s:this_dir."/dots/*")
+let s:vim_scripts_dir = expand(s:this_dir."/dots/")
 " source system first
 call s:source_dot(s:this_dir."/dots/system")
-for fdir in split(s:vim_scripts_dirs, '\n')
-    if fdir =~ "system$"
-        continue
-    elseif fdir =~ "local$"
-        continue
-    endif
+for fdir in split($DOTS, '|')
+    let fdir = s:vim_scripts_dir.fdir
     call s:source_dot(fdir)
 endfor
+" source local last
 call s:source_dot(s:this_dir."/dots/local")
