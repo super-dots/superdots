@@ -56,6 +56,22 @@ git clone https://github.com/super-dots/superdots ~/.superdots
 
 ![superdots_install](https://user-images.githubusercontent.com/5090146/68075572-ab10b080-fd66-11e9-8e43-91c91a826aa5.gif)
 
+**NOTE**: superdots currently comes default with the [fn-vim](https://github.com/super-dots/fn-vim)
+plugin, which adds nicer support for `fn*` functions in vim. If you want a
+completely clean super-dots installation, use the `--bare` flag when running
+`bin/install`:
+
+```
+USAGE: bin/install [--bare] [--help]
+
+This script installs superdots. The default installation comes with
+fn-vim installed as a plugin. Use the '--bare' option to install a
+bare superdots:
+
+            --bare      Do not install any default plugins
+            --help,-h   Show this help message
+```
+
 ## System Functions
 
 System functions that you will use with superdots are:
@@ -142,6 +158,7 @@ has:
 
 | repo                                                                  | stars                                                                                     | contributors                                                                               | description                     |
 |-----------------------------------------------------------------------|-------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|---------------------------------|
+| [super-dots/fn-vim](https://github.com/super-dots/fn-vim)             | ![GitHub stars](https://img.shields.io/github/stars/super-dots/fn-vim?style=social)       | ![GitHub contributors](https://img.shields.io/github/contributors/super-dots/fn-vim)       | Vim-specific `fn*` integrations |
 | [d0c-s4vage/my-superdots](https://github.com/d0c-s4vage/my-superdots) | ![GitHub stars](https://img.shields.io/github/stars/d0c-s4vage/my-superdots?style=social) | ![GitHub contributors](https://img.shields.io/github/contributors/d0c-s4vage/my-superdots) | d0c-s4vage's personal superdots |
 
 ### Creating Plugins
@@ -161,13 +178,15 @@ The minimum requirement is a directory structure as shown below:
 3 directories, 0 files
 ```
 
-If this is saved on Github, it can be added to your `~/.bashrc` as a superdots
-plugin with the `superdots` command:
+Your plugin can be added to your `~/.bashrc` as a superdots plugin with the
+`superdots` command:
 
 ```bash
 # ~/.bashrc
 
-superdots my-username/my-superdots-plugin
+superdots my-username/my-superdots-plugin # Github
+superdots git@somewhere.else:my-username/my-superdots-plugin.git # elsewhere
+superdots https://gitlab.com/my-username/my-superdots-plugin.git # elsewhere
 ```
 
 This functionality should feel similar to [vim-plug](https://github.com/junegunn/vim-plug).
@@ -195,3 +214,15 @@ slowly from:
 
 Superdots takes inspiration from vim's plugin structure, specifically
 [vim-plug](https://github.com/junegunn/vim-plug)'s approach to it.
+
+## Notes
+
+### Vim-Plug
+
+Be aware that vim-plug currently doesn't support multiple plugin sections. See
+
+* [vim-plug#300](https://github.com/junegunn/vim-plug/issues/300)
+* [vim-plug#615](https://github.com/junegunn/vim-plug/issues/615)
+
+The last superdots plugin loaded will have the final say on vim-plug
+definitions.

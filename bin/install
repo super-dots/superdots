@@ -91,6 +91,11 @@ function source_bashrc {
     local full_path="$(superdots-realpath "$SUPERDOTS_DIR")"
     # append
     echo "source \"$full_path/bash_init.sh\"" >> "$bashrc"
+
+    if [ $BARE == false ] ; then
+        # default superdots plugin for nicer vim support with fn* functions
+        echo "superdots super-dots/fn-vim" >> "$bashrc"
+    fi
 }
 
 function source_tmuxconf {
@@ -98,11 +103,52 @@ function source_tmuxconf {
 }
 
 
+function show_help {
+    cat <<-EOF
+USAGE: $THIS_PROG [--bare] [--help]
+
+This script installs superdots. The default installation comes with
+fn-vim installed as a plugin. Use the '--bare' option to install a
+bare superdots:
+
+            --bare      Do not install any default plugins
+            --help,-h   Show this help message
+EOF
+}
+
+
+function parse_args {
+    BARE=false
+    OPT=""
+
+    while [ $# -ne 0 ] ; do
+        param="$1"
+        shift
+
+        case "$param" in
+            --help|-h)
+                show_help
+                exit 1
+                ;;
+            --bare|-b)
+                BARE=true
+                ;;
+            *)
+                echo "[!] Unrecognized parameter $param"
+                echo
+                show_help
+                exit 1
+                ;;
+        esac
+    done
+}
+
+parse_args "$@"
+
 superdots-ensure-deps \
     git \
     tmux \
-    curl \
-    vim
+    curl
 if [ $? -ne 0 ] ; then
     exit 1
 fi
