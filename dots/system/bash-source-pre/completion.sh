@@ -17,6 +17,9 @@
 function add_completion {
     local fn_name="$1"
     local completion_fn="$2"
+    shift
+    shift
+    local opts="$@"
 
     local tmp_fn="_${fn_name}__completion__"
     local func_def=""
@@ -38,5 +41,5 @@ EOF
     eval "$func_def"
 
     # assign the temporary function as the completion for fn_name
-    complete -F "${tmp_fn}" "${fn_name}"
+    complete $opts -F "${tmp_fn}" "${fn_name}"
 }
