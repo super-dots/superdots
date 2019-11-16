@@ -6,12 +6,28 @@ THIS_PROG="$0"
 
 
 function _fn_file_completion {
-    for fname in "${SUPERDOTS}"/dots/local/bash-sources/*.sh ; do
+    plugin_name="${1:-local}"
+    for fname in "${SUPERDOTS}"/dots/"$plugin_name"/bash-sources/*.sh ; do
         if [[ $fname =~ '*' ]] ; then
             continue
         fi
-        basename "${fname}" | sed 's/\.sh//'
+
+        if [ -z "$1" ] ; then
+            basename "${fname}" | sed 's/\.sh//'
+        else
+            echo "$plugin_name/$(basename "${fname}" | sed 's/\.sh//')"
+        fi
     done
+
+    if [ -z "$1" ] ; then
+        # now do all of the non-local plugin/file names
+        for plugin_path in $(ls "${SUPERDOTS}"/dots) ; do
+            if [ "$plugin_path" == "local" ] || [ "$plugin_path" == "system" ] ; then
+                continue
+            fi
+            _fn_file_completion "$plugin_path"
+        done
+    fi
 }
 
 function _fn_fn_completion {
@@ -45,7 +61,7 @@ function fn_new {
     fi
 
     local fn="$1"
-    local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
+    local fnpath=$(_get_fn_path "$fn")
 
     $EDITOR $fnpath
     
@@ -57,7 +73,21 @@ function fn_new {
     fi
 }
 
-add_completion fn_edit _fn_file_completion
+function _get_fn_path {
+    # remove the leading slash
+    local fn="$1"
+
+    if [[ "$fn" =~ / ]] ; then
+        local plugin=$(sed 's^/.*^^' <<<"$fn")
+        local fn=$(sed 's^.*/^^' <<<"$fn")
+        local fnpath="${SUPERDOTS}/dots/$plugin/bash-sources/${fn}.sh"
+    else
+        local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
+    fi
+    echo "$fnpath"
+}
+
+add_completion fn_edit _fn_file_completion -o nosort
 function fn_edit {
     if [ $# -ne 1 ] ; then
         echo "USAGE: fn_edit FN_FILE_NAME"
@@ -69,7 +99,7 @@ function fn_edit {
     fi
 
     local fn="$1"
-    local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
+    local fnpath=$(_get_fn_path "$fn")
 
     if [ ! -e "${fnpath}" ] ; then
         fn_new $fn
@@ -94,4 +124,13 @@ function fn {
     local fn="$1"
     shift
     $fn "$@"
+}
+
+add_completion fn_src _fn_fn_completion
+function fn_src {
+    if [ $# -lt 1 ] ; then
+        echo "USAGE: fn_src FN_NAME"
+        return 1
+    fi
+    declare -f "$1"
 }
