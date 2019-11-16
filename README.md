@@ -88,12 +88,13 @@ System functions that you will use with superdots are:
 
 Core functions of superdots are:
 
-| Command   | Example            | Note                                                                          |
-|-----------|--------------------|-------------------------------------------------------------------------------|
-| `fn_edit` | `fn_edit python`   | Edit `${SUPERDOTS}/dots/local/bash-sources/python.sh` file for editing in vim |
-| `fn_new`  | `fn_new python`    | Expand new_fn snippet within `${SUPERDOTS}/dots/local/bash-sources/python.sh` |
-| `fn`      | `fn a_function`    | A proxy to support tab-completion with superdots-specific functions           |
-| `work`    | `work new_project` | Creates or reattaches to an existing tmux session named `new_project`         |
+| Command   | Example             | Note                                                                          |
+|-----------|---------------------|-------------------------------------------------------------------------------|
+| `fn_edit` | `fn_edit python`    | Edit `${SUPERDOTS}/dots/local/bash-sources/python.sh` file for editing in vim |
+| `fn_new`  | `fn_new python`     | Expand new_fn snippet within `${SUPERDOTS}/dots/local/bash-sources/python.sh` |
+| `fn`      | `fn a_function`     | A proxy to support tab-completion with superdots-specific functions           |
+| `fn_src`  | `fn_src a_function` | Print the source of the function `a_function` to stdout                       |
+| `work`    | `work new_project`  | Creates or reattaches to an existing tmux session named `new_project`         |
 
 ### Fn Functions
 
@@ -108,6 +109,10 @@ TODO add gif
 `fn` - tab completion
 
 TODO add gif
+
+`fn_src` - Display source of the specified function
+
+![fn_src](https://user-images.githubusercontent.com/5090146/69000367-6bc48280-0883-11ea-8cb2-41b158cf9231.gif)
 
 ### Work Function
 
