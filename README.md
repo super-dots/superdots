@@ -100,15 +100,15 @@ Core functions of superdots are:
 
 `fn_edit`
 
-TODO add gif
+![fn_edit](https://user-images.githubusercontent.com/5090146/69009445-0ff10c80-090a-11ea-9c7a-ef7b6a789da9.gif)
 
 `fn_new`
 
-TODO add gif
+![fn_new](https://user-images.githubusercontent.com/5090146/69009491-6d855900-090a-11ea-8d01-a7f5f880ceb0.gif)
 
 `fn` - tab completion
 
-TODO add gif
+![fn](https://user-images.githubusercontent.com/5090146/69009521-bd642000-090a-11ea-9433-02f123025738.gif)
 
 `fn_src` - Display source of the specified function
 
@@ -118,15 +118,11 @@ TODO add gif
 
 `work` - new session
 
-TODO add gif
+![work](https://user-images.githubusercontent.com/5090146/69009645-3c0d8d00-090c-11ea-9506-f3ff840313b1.gif)
 
 `work` - reattach to an existing session
 
-TODO add gif
-
-`work` - tab completion
-
-TODO add gif
+![work_reattach](https://user-images.githubusercontent.com/5090146/69009647-4b8cd600-090c-11ea-8de2-5a871be6e501.gif)
 
 ## Plugins
 
