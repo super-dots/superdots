@@ -125,3 +125,12 @@ function fn {
     shift
     $fn "$@"
 }
+
+add_completion fn_src _fn_fn_completion
+function fn_src {
+    if [ $# -lt 1 ] ; then
+        echo "USAGE: fn_src FN_NAME"
+        return 1
+    fi
+    declare -f "$1"
+}

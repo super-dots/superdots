@@ -88,40 +88,41 @@ System functions that you will use with superdots are:
 
 Core functions of superdots are:
 
-| Command   | Example            | Note                                                                          |
-|-----------|--------------------|-------------------------------------------------------------------------------|
-| `fn_edit` | `fn_edit python`   | Edit `${SUPERDOTS}/dots/local/bash-sources/python.sh` file for editing in vim |
-| `fn_new`  | `fn_new python`    | Expand new_fn snippet within `${SUPERDOTS}/dots/local/bash-sources/python.sh` |
-| `fn`      | `fn a_function`    | A proxy to support tab-completion with superdots-specific functions           |
-| `work`    | `work new_project` | Creates or reattaches to an existing tmux session named `new_project`         |
+| Command   | Example             | Note                                                                          |
+|-----------|---------------------|-------------------------------------------------------------------------------|
+| `fn_edit` | `fn_edit python`    | Edit `${SUPERDOTS}/dots/local/bash-sources/python.sh` file for editing in vim |
+| `fn_new`  | `fn_new python`     | Expand new_fn snippet within `${SUPERDOTS}/dots/local/bash-sources/python.sh` |
+| `fn`      | `fn a_function`     | A proxy to support tab-completion with superdots-specific functions           |
+| `fn_src`  | `fn_src a_function` | Print the source of the function `a_function` to stdout                       |
+| `work`    | `work new_project`  | Creates or reattaches to an existing tmux session named `new_project`         |
 
 ### Fn Functions
 
 `fn_edit`
 
-TODO add gif
+![fn_edit](https://user-images.githubusercontent.com/5090146/69009445-0ff10c80-090a-11ea-9c7a-ef7b6a789da9.gif)
 
 `fn_new`
 
-TODO add gif
+![fn_new](https://user-images.githubusercontent.com/5090146/69009491-6d855900-090a-11ea-8d01-a7f5f880ceb0.gif)
 
 `fn` - tab completion
 
-TODO add gif
+![fn](https://user-images.githubusercontent.com/5090146/69009521-bd642000-090a-11ea-9433-02f123025738.gif)
+
+`fn_src` - Display source of the specified function
+
+![fn_src](https://user-images.githubusercontent.com/5090146/69000367-6bc48280-0883-11ea-8cb2-41b158cf9231.gif)
 
 ### Work Function
 
 `work` - new session
 
-TODO add gif
+![work](https://user-images.githubusercontent.com/5090146/69009645-3c0d8d00-090c-11ea-9506-f3ff840313b1.gif)
 
 `work` - reattach to an existing session
 
-TODO add gif
-
-`work` - tab completion
-
-TODO add gif
+![work_reattach](https://user-images.githubusercontent.com/5090146/69009647-4b8cd600-090c-11ea-8de2-5a871be6e501.gif)
 
 ## Plugins
 
