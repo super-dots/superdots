@@ -2,7 +2,6 @@
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [Intro](#intro)
 - [Quick Start](#quick-start)
 - [System Functions](#system-functions)
