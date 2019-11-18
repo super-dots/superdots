@@ -7,15 +7,9 @@
 - [Quick Start](#quick-start)
 - [System Functions](#system-functions)
 - [Efficiency Functions](#efficiency-functions)
-  * [Fn Functions](#fn-functions)
-  * [Work Function](#work-function)
 - [Plugins](#plugins)
-  * [Using Existing Plugins](#using-existing-plugins)
-  * [Creating Plugins](#creating-plugins)
 - [History](#history)
-  * [Inspiration](#inspiration)
 - [Notes](#notes)
-  * [Vim-Plug](#vim-plug)
 
 ## Intro
 
