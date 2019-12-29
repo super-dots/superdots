@@ -33,8 +33,8 @@ function superdots-realpath {
         cd "$(dirname "$1")"
         local link=$(readlink "$(basename "$1")")
         while [ "$link" ]; do
-          cd "$(dirname "$link")"
-          local link=$(readlink "$(basename "$1")")
+            cd "$(dirname "$link")"
+            local link=$(readlink "$(basename "$1")")
         done
         local real_path="$PWD/$(basename "$1")"
         cd "$start_pwd"
@@ -256,6 +256,40 @@ function superdots-update {
     for dot in "${DOTS_LIST[@]}" ; do
         superdots-update-dot "$dot"
         superdots-source-dot "$dot"
+    done
+}
+
+function superdots-status-dot {
+    superdots-debug "Statusing $1"
+
+    local dot_folder=$(superdots-localname "$1")
+    if [ ! -e "$SUPERDOTS/dots/$dot_folder" ] ; then
+        superdots-warn "Superdots $1 has not been installed"
+        return
+    fi
+
+    if [ ! -e "$SUPERDOTS/dots/$dot_folder/.git" ] ; then
+        superdots-warn "$1 does not have a .git folder"
+        return
+    fi
+
+    superdots-info "$1 status:"
+
+    (
+        cd "$SUPERDOTS/dots/$dot_folder/"
+        git status
+    ) 2>&1 | sed -e 's/^/    /g'
+}
+
+function superdots-status {
+    # Basically run git status on all cloned dot directories
+    local first=true
+    for dot in "${DOTS_LIST[@]}" ; do
+        if [ $first != "true" ] ; then
+            echo ""
+        fi
+        local first=false
+        superdots-status-dot "$dot"
     done
 }
 
