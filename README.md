@@ -69,14 +69,15 @@ bare superdots:
 
 System functions that you will use with superdots are:
 
-| Command             | Example                                      | Note                                       |
-|---------------------|----------------------------------------------|--------------------------------------------|
-| `superdots`         | `superdots a-user/a-superdots`               | Records github.com/a-user/a-superdots      |
-|                     | `superdots git@some.host:group/project.git`  |                                            |
-|                     | `superdots https://github.com/group/project` |                                            |
-| `superdots-install` | `superdots-install`                          | Ensures all recorded plugins are installed |
-| `superdots-update`  | `superdots-update`                           | Updates all recorded superdots plugins     |
-| `superdots-status`  | `superdots-status`                           | Show the `git status` of  installed dots   |
+| Command             | Example                                      | Note                                                       |
+|---------------------|----------------------------------------------|------------------------------------------------------------|
+| `superdots`         | `superdots a-user/a-superdots`               | Records github.com/a-user/a-superdots                      |
+|                     | `superdots git@some.host:group/project.git`  |                                                            |
+|                     | `superdots https://github.com/group/project` |                                                            |
+| `superdots-install` | `superdots-install`                          | Ensures all recorded plugins are installed                 |
+| `superdots-update`  | `superdots-update`                           | Updates all recorded superdots plugins                     |
+| `superdots-status`  | `superdots-status`                           | Show the `git status` of  installed dots                   |
+| `superdots-shell`   | `superdots-shell SUPERDOT`                   | Drop into a `$SHELL` in the superdot (use tab completion!) |
 
 ## Efficiency Functions
 
