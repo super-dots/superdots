@@ -5,12 +5,13 @@ with version numbers.
 
 ## v1.2.0
 
-| Type    | Issue                                                    | Description                                                       |
-|---------|----------------------------------------------------------|-------------------------------------------------------------------|
-| Feature | [#20](https://github.com/super-dots/superdots/issues/20) | Added gifs to README                                              |
-| Feature | [#19](https://github.com/super-dots/superdots/issues/19) | Added `fn_src` function                                           |
-| Feature | [#15](https://github.com/super-dots/superdots/issues/15) | `fn_edit`\|`fn_new` Can now edit non-local fn files               |
-| Bug     | [#13](https://github.com/super-dots/superdots/issues/13) | Made `superdots-install` and `superdots-update` more robust       |
+| Type    | Issue                                                    | Description                                                 |
+|---------|----------------------------------------------------------|-------------------------------------------------------------|
+| Feature | [#22](https://github.com/super-dots/superdots/issues/22) | Added `superdots-status` function                           |
+| Feature | [#20](https://github.com/super-dots/superdots/issues/20) | Added gifs to README                                        |
+| Feature | [#19](https://github.com/super-dots/superdots/issues/19) | Added `fn_src` function                                     |
+| Feature | [#15](https://github.com/super-dots/superdots/issues/15) | `fn_edit`\|`fn_new` Can now edit non-local fn files         |
+| Bug     | [#13](https://github.com/super-dots/superdots/issues/13) | Made `superdots-install` and `superdots-update` more robust |
 
 ## v1.1.1
 
