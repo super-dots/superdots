@@ -76,6 +76,7 @@ System functions that you will use with superdots are:
 |                     | `superdots https://github.com/group/project` |                                            |
 | `superdots-install` | `superdots-install`                          | Ensures all recorded plugins are installed |
 | `superdots-update`  | `superdots-update`                           | Updates all recorded superdots plugins     |
+| `superdots-status`  | `superdots-status`                           | Show the `git status` of  installed dots   |
 
 ## Efficiency Functions
 
