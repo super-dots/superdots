@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-THIS_PROG="$0"
-
-
 function _fn_file_completion {
     plugin_name="${1:-local}"
     for fname in "${SUPERDOTS}"/dots/"$plugin_name"/bash-sources/*.sh ; do
