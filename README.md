@@ -1,49 +1,42 @@
 # superdots
 
-Super dot files.
-
-* Organized
-* Usable
-* Extendable
-
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [Intro](#intro)
 - [Quick Start](#quick-start)
 - [System Functions](#system-functions)
 - [Efficiency Functions](#efficiency-functions)
-  * [Fn Functions](#fn-functions)
-  * [Work Function](#work-function)
 - [Plugins](#plugins)
-  * [Using Existing Plugins](#using-existing-plugins)
-  * [Creating Plugins](#creating-plugins)
 - [History](#history)
-  * [Inspiration](#inspiration)
+- [Notes](#notes)
 
 ## Intro
 
-Superdots is a plugin-supporting framework for being efficient in \*nix
-environments through:
+Superdots is a shell environment plugin framework that focuses on workflow
+efficiency. Specific focus is placed on the efficiency of:
 
-* User-friendly bash snippet management (`fn*` functions)
-* Dot file organization
-* Tmux workspace management (`work` function)
-* Vim organization
+* Shell environment management
+* Dot-file Organization (e.g. vim configurations/scripts)
+* User-friendly command saving/recall ([`fn*` functions](#fn-functions))
+* Context switching ([`work` function](#work-function))
 
-This means you can:
+As opposed to [other](https://github.com/ohmybash/oh-my-bash) [terminal](https://github.com/Bash-it/bash-it)
+[frameworks](https://github.com/robbyrussell/oh-my-zsh) that focus on
+encapsulating specific functionality as plugins, superdots sets its focus on
+capturing the higher level, overall shell environment of users as shareable
+plugins.
 
-* Easily codify, save, recall, and share accumulated command-line experience
-* Have separate/public superdots from your work/private superdots
-* Try out someone else's superdots
+As an example, user1 could share their tmux, vim, and bash configurations as
+a single superdots plugin. Another user's personal workspace might
+be a mix of user1's superdots plugin (bash/tmux/vim settings) and their own
+personal customizations.
 
-For example, have you ever tried saving some useful bash snippet you
-wrote or came across? How many steps did it take to save it? How many steps did
-it take to remember how to use it? What about organizing your bash snippets,
-editing them, or sharing with other people?
-
-Superdots aims to solve these problems and make everyone more efficient in
-\*nix environments.
+Another common situation is when separate personal and work shell
+environments are needed. A work shell environment is often a blend of personal
+settings and work-specific configurations. A user could define their
+base/personal shell environment in a superdots plugin saved to GitHub, and
+define a separate work-specific superdots plugin that is committed to a
+repository at work.
 
 ## Quick Start
 
@@ -148,12 +141,11 @@ unverified vim plugins, or installing 1000s of node packages through npm. Be
 smart, and exercise the same caution that you do with other package and plugin
 managers.
 
-A list of plugins is kept below, sorted by the number of stars the repository
-has:
+A list of plugins is kept below:
 
 ---
 
-**DISCLAIMER** The maintainers of superdots make no claim as to the reliability, security, or intentions of the following superdots plugins. |
+**DISCLAIMER** The maintainers of superdots make no claim as to the reliability, security, or intentions of the following superdots plugins.
 
 ---
 
@@ -202,6 +194,7 @@ slowly from:
 * Copying around dot files, to
 * Creating a place to put [dot files on Github](https://github.com/d0c-s4vage/superdots/commit/19ab35560ea0e0e2dfccb2e233d8ad514e04621d), to
 * Adding `.vimrc` [to github](https://github.com/d0c-s4vage/superdots/commit/106dfe55950f58c819cc8b50998d3e5d124a0cff)
+* 
 * [Organizing and categorizing](https://github.com/d0c-s4vage/superdots/commit/81c8dd245a370960a01510a6a511cb7757aa8d2d) `.vimrc` into `vim-scripts`
 * Slowly adding [.screenrc](https://github.com/d0c-s4vage/superdots/commit/a16db13babc2fa478fd8ac048a34f1c873114d54), and [organized bash sources](https://github.com/d0c-s4vage/superdots/commit/c8f98cfa1525c01bcad660ee497220ce9addee61) 
 * Developing `work` function [for tmux session management](https://github.com/d0c-s4vage/superdots/commit/bf2b25f88d30133a48723595ac54983175384df6#diff-51ee3d2b64fe89b649ef89f583d29ab5R4)
