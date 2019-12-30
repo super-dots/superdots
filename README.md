@@ -65,6 +65,11 @@ bare superdots:
             --help,-h   Show this help message
 ```
 
+## Supported Platforms
+
+Linux and Posix systems should both be fully supported. Windows with WSL or
+Cygwin have not yet been tested.
+
 ## System Functions
 
 System functions that you will use with superdots are:

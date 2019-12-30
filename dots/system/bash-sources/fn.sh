@@ -28,7 +28,7 @@ function _fn_file_completion {
 
 function _fn_fn_completion {
     grep -he "^function " "${SUPERDOTS}/dots/"*/bash-sources/*.sh \
-        | sed 's/function\s*\(.*\)\s\s*.*/\1/g' \
+        | sed 's/function[[:space:]][[:space:]]*\(.*\)[[:space:]][[:space:]]*.*/\1/g' \
         | grep -v "^_" \
         | sort \
         | uniq
@@ -83,7 +83,7 @@ function _get_fn_path {
     echo "$fnpath"
 }
 
-add_completion fn_edit _fn_file_completion -o nosort
+add_completion fn_edit _fn_file_completion
 function fn_edit {
     if [ $# -ne 1 ] ; then
         echo "USAGE: fn_edit FN_FILE_NAME"
