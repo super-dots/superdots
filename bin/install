@@ -31,7 +31,7 @@ function superdots-echo {
     local level=$1
     shift
 
-    if [ "$level" = "DEBUG" ] && [ $SUPERDOTS_DEBUG = false ] ; then
+    if [ "$level" = "DEBUG" ] && [ "$SUPERDOTS_DEBUG" = false ] ; then
         return 0
     fi
 
@@ -59,6 +59,7 @@ function superdots-ensure-deps {
     # superdots requires the following to be able to function correctly:
 
     local ensured=true
+    superdots-debug Ensuring deps "$@"
 
     while [ $# -gt 0 ] ; do
         local dep=$1

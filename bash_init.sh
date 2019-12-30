@@ -5,12 +5,27 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 THIS_PROG="$0"
 
 
-_COLOR_DIM="\e[2m"
-_COLOR_BOLD="\e[1m"
-_COLOR_RED="\e[91m"
-_COLOR_YELLOW="\e[93m"
-_COLOR_GREEN="\e[92m"
-_COLOR_RESET="\e[0m"
+uname_output="$(uname -s)"
+case "${uname_output}" in
+    Linux*)     PLATFORM=Linux;;
+    Darwin*)    PLATFORM=Mac;;
+    CYGWIN*)    PLATFORM=Cygwin;;
+    MINGW*)     PLATFORM=MinGw;;
+    *)          PLATFORM="UNKNOWN:${uname_output}"
+esac
+
+if [ "$PLATFORM" == "Mac" ] ; then
+    _E=$'\033'
+else
+    _E="\e"
+fi
+
+_COLOR_DIM="$_E[2m"
+_COLOR_BOLD="$_E[1m"
+_COLOR_RED="$_E[91m"
+_COLOR_YELLOW="$_E[93m"
+_COLOR_GREEN="$_E[92m"
+_COLOR_RESET="$_E[0m"
 
 
 function _hide {
