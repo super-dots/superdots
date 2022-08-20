@@ -41,7 +41,7 @@ function _init_tmux_confs {
 
 add_completion work _tmux_work_completion
 function work {
-    local session_name="$1"
+    local session_name="${1:-$(basename $(pwd))}"
 
     _init_tmux_confs
 
