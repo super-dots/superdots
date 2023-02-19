@@ -45,7 +45,7 @@ function _ensure_editor {
     fi
 }
 
-add_completion fn_new _fn_file_completion
+sd::completion::add fn_new _fn_file_completion
 function fn_new {
     if [ $# -ne 1 ] ; then
         echo "USAGE: fn_new FN_FILE_NAME"
@@ -83,7 +83,7 @@ function _get_fn_path {
     echo "$fnpath"
 }
 
-add_completion fn_edit _fn_file_completion
+sd::completion::add fn_edit _fn_file_completion
 function fn_edit {
     if [ $# -ne 1 ] ; then
         echo "USAGE: fn_edit FN_FILE_NAME"
@@ -110,7 +110,7 @@ function fn_edit {
     fi
 }
 
-add_completion fn _fn_fn_completion
+sd::completion::add fn _fn_fn_completion
 function fn {
     if [ $# -lt 1 ] ; then
         echo "USAGE: fn FN_NAME"
@@ -122,7 +122,7 @@ function fn {
     $fn "$@"
 }
 
-add_completion fn_src _fn_fn_completion
+sd::completion::add fn_src _fn_fn_completion
 function fn_src {
     if [ $# -lt 1 ] ; then
         echo "USAGE: fn_src FN_NAME"

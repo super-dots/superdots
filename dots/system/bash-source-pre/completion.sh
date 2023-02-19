@@ -9,12 +9,12 @@
 #         echo 1110 1111 1101 1100
 #     }
 #    
-#     add_completion a_few_binary_numbers do_completion
+#     sd::completion::add a_few_binary_numbers do_completion
 #     function a_few_binary_numbers {
 #         echo $1
 #     }
 #
-function add_completion {
+function sd::completion::add {
     local fn_name="$1"
     local completion_fn="$2"
     shift

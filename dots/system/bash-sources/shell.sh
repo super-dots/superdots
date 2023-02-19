@@ -7,7 +7,7 @@ function _dots_completion {
 
 
 # Drop into a new $SHELL in the specified dot's directory
-add_completion superdots-shell _dots_completion
+sd::completion::add superdots-shell _dots_completion
 function superdots-shell {
     dot="$1"
     local dot_folder=$(superdots-localname "$1")
