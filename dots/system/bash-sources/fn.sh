@@ -27,7 +27,7 @@ function _fn_file_completion {
 }
 
 function _fn_fn_completion {
-    grep -he "^function " "${SUPERDOTS}/dots/"*/bash-sources/*.sh \
+    grep -he "^function " "${SUPERDOTS}/dots/"*/bash-source*/*.sh \
         | sed 's/function[[:space:]][[:space:]]*\(.*\)[[:space:]][[:space:]]*.*/\1/g' \
         | grep -v "^_" \
         | sort \

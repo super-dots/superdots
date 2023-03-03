@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SD_LOG_PREFIX="[>>>]"
-SD_LOG_LEVEL="info"
+SD_LOG_LEVEL="${SD_LOG_LEVEL:-info}"
 _SD_LOG_COLOR=""
 _SD_LOG_EXTRA_PREFIX=""
 
@@ -126,7 +126,7 @@ function sd::log::_inline {
 
 # OVERRIDEABLE VIA ALIAS
 function sd::log::_command {
-    sd::func::escaped_args arg_var "$@"
+    sd::func::escaped_args --out arg_var -- "$@"
 
     sd::log::_msg "Running command:"
     sd::log::_msg "${SD_COLOR_BOLD}  $arg_var"
@@ -145,6 +145,8 @@ function sd::log::_box_indent {
     local color=$(echo -e "$_SD_LOG_COLOR")
     local dim_color=$(echo -e "$SD_COLOR_DIM")
     sed "s/^/${color}${_SD_LOG_EXTRA_PREFIX}${SD_LOG_PREFIX}   │ ${dim_color}/g"
+    # sometimes this is needed - doesn't hurt to add it when it's not needed
+    echo -ne "\r"
     sd::log::_msg '  ╰──────'
 }
 

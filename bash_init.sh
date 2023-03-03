@@ -59,7 +59,7 @@ function superdots-realpath {
 
 
 export SUPERDOTS=$(superdots-realpath "${SUPERDOTS:-$DIR}")
-export SUPERDOTS_DEBUG=${SUPERDOTS_DEBUG:-false}
+export SD_LOG_LEVEL=${SD_LOG_LEVEL:-info}
 SUPERDOTS_LOG='/tmp/superdots.log'
 SUPERDOTS_DEPS=(git)
 
@@ -67,11 +67,37 @@ SUPERDOTS_DEPS=(git)
 DOTS_LIST=()
 
 
+function superdots-log-level-num {
+    local outvar="$1"
+    local level_name="$2"
+    local level_num=1
+
+    case "$level_name" in
+        debug)
+            level_num=0
+            ;;
+        info)
+            level_num=1
+            ;;
+        warn)
+            level_num=2
+            ;;
+        error)
+            level_num=3
+            ;;
+    esac
+
+    eval "$outvar"'='"$level_num"
+}
+
+
 function superdots-echo {
     local level=$1
     shift
 
-    if [ "$level" = "DEBUG" ] && [ "$SUPERDOTS_DEBUG" = false ] ; then
+    superdots-log-level-num msg_level "$level"
+    superdots-log-level-num log_level "$SD_LOG_LEVEL"
+    if [ $msg_level -lt $log_level ] ; then
         return 0
     fi
 
@@ -79,27 +105,47 @@ function superdots-echo {
 }
 
 function superdots-debug {
-    echo -en $_COLOR_DIM
-    superdots-echo "DEBUG" "$@"
-    echo -en $_COLOR_RESET
+    if [[ $(type -t sd::log::debug) == function ]]; then
+        sd::log::debug "$@"
+    else
+        echo -en $_COLOR_DIM
+        superdots-echo "DEBUG" "$@"
+        echo -en $_COLOR_RESET
+    fi
 }
 
 function superdots-info {
-    echo -en $_COLOR_BOLD
-    superdots-echo " INFO" "$@"
-    echo -en $_COLOR_RESET
+    if [[ $(type -t sd::log::debug) == function ]]; then
+        sd::log::info "$@"
+    else
+        echo -en $_COLOR_BOLD
+        superdots-echo " INFO" "$@"
+        echo -en $_COLOR_RESET
+    fi
 }
 
 function superdots-warn {
-    echo -en $_COLOR_YELLOW
-    superdots-echo " WARN" "$@"
-    echo -en $_COLOR_RESET
+    if [[ $(type -t sd::log::debug) == function ]]; then
+        sd::log::warn "$@"
+    else
+        echo -en $_COLOR_YELLOW
+        superdots-echo " WARN" "$@"
+        echo -en $_COLOR_RESET
+    fi
 }
 
 function superdots-err {
-    echo -en $_COLOR_RED
-    superdots-echo "  ERR" "$@"
-    echo -en $_COLOR_RESET
+    if [[ $(type -t sd::log::debug) == function ]]; then
+        sd::log::error "$@"
+    else
+        echo -en $_COLOR_RED
+        superdots-echo "  ERR" "$@"
+        echo -en $_COLOR_RESET
+    fi
+}
+# OVERRIDEABLE VIA ALIAS
+function superdots-indent {
+    sed "s/^/    /g"
 }
 
 function superdots-ensure-deps {
@@ -123,6 +169,15 @@ function superdots-ensure-deps {
     fi
 }
 
+function superdots-source-all {
+    superdots-debug sourcing all dots
+    set -a
+    for dot in system "${DOTS_LIST[@]}" local ; do
+        superdots-source-dot "$dot"
+    done
+    set +a
+}
+
 function superdots-source-dot {
     superdots-debug "Sourcing $1"
 
@@ -139,13 +194,15 @@ function superdots-source-dot {
 
     export -f superdots-debug
     for order in "${source_order[@]}" ; do
-        superdots-debug "Sourcing files in $order"
+        superdots-debug "  sourcing $order"
         for file in "$SUPERDOTS/dots/$order"/*.sh ; do
             if [[ $file =~ "*" ]] ; then continue ; fi
-            superdots-debug "    $(basename $file)"
+            superdots-debug "    $file"
             . "$file"
         done
     done
+
+    superdots-debug "..done"
 }
 
 function superdots-localname {
@@ -238,9 +295,6 @@ function superdots {
         dots="$dots$(superdots-localname "$dot_name")"
     done
     export DOTS="$dots"
-
-    # load them as they're declared - if they exist
-    superdots-source-dot "$1"
 }
 
 function superdots-install {
@@ -309,10 +363,5 @@ function superdots-status {
 }
 
 function superdots-init {
-    # load system dots first, then plugins, then any local dots
-    for dot in system "${DOTS_LIST[@]}" local ; do
-        superdots-source-dot "$dot"
-    done
+    superdots-source-all
 }
-
-superdots-init

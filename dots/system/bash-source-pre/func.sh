@@ -29,9 +29,18 @@ EOF
 #       forward a command and its arguments into bash -c
 # ARGS: OUTVAR $@
 function sd::func::escaped_args {
-    out_var="$1"
-    shift
+    if ! [ "$1" = "--out" ] && ! [ "$3" = "--" ] ; then
+        sd::log::error "USAGE: $0 --out out_var -- arg1 arg2 ..."
+        return 1
+    fi
 
+    shift # get rid of the "--out" param
+
+    out_var="$1"
+    shift 
+
+    shift # get rid of the --
+    
     res=""
     idx=1
     for arg in "$@" ; do
@@ -51,15 +60,14 @@ function sd::func::aliased {
 
     # if no alias exists, treat it like a normal command and also let it fail
     if [ $? -ne 0 ] ; then
-        sd::func::escaped_args escaped_args "$alias_name" "$@"
+        sd::func::escaped_args --out escaped_args -- "$alias_name" "$@"
         $alias_name "$@"
         return $?
     fi
 
-
     local actual_cmd=$(sed -r "s/alias ${alias_name}='(.*)'\$/\1/" <<<$alias_def)
 
     # now call the alias
-    sd::func::escaped_args escaped_args "$actual_cmd" "$@"
+    sd::func::escaped_args --out escaped_args -- "$actual_cmd" "$@"
     $actual_cmd "$@"
 }
