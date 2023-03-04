@@ -109,17 +109,21 @@ function superdots-debug {
         sd::log::debug "$@"
     else
         echo -en $_COLOR_DIM
-        superdots-echo "DEBUG" "$@"
+        superdots-echo "debug" "$@"
         echo -en $_COLOR_RESET
     fi
 }
 
 function superdots-info {
+    if [ "$SD_LOG_LEVEL" != "info" ] ; then
+        return 0
+    fi
+
     if [[ $(type -t sd::log::debug) == function ]]; then
         sd::log::info "$@"
     else
         echo -en $_COLOR_BOLD
-        superdots-echo " INFO" "$@"
+        superdots-echo "info" "$@"
         echo -en $_COLOR_RESET
     fi
 }
@@ -129,7 +133,7 @@ function superdots-warn {
         sd::log::warn "$@"
     else
         echo -en $_COLOR_YELLOW
-        superdots-echo " WARN" "$@"
+        superdots-echo "warn" "$@"
         echo -en $_COLOR_RESET
     fi
 }
@@ -139,7 +143,7 @@ function superdots-err {
         sd::log::error "$@"
     else
         echo -en $_COLOR_RED
-        superdots-echo "  ERR" "$@"
+        superdots-echo "error" "$@"
         echo -en $_COLOR_RESET
     fi
 }
@@ -192,13 +196,29 @@ function superdots-source-dot {
         "${dot_folder}/bash-sources"
     )
 
+    local is_debug
+    local start=0
+    local end=0
+    if [ "$SD_LOG_LEVEL" = "debug" ] ; then is_debug=true ; fi
+
     export -f superdots-debug
     for order in "${source_order[@]}" ; do
         superdots-debug "  sourcing $order"
         for file in "$SUPERDOTS/dots/$order"/*.sh ; do
             if [[ $file =~ "*" ]] ; then continue ; fi
-            superdots-debug "    $file"
+
+            [ $is_debug ] && start=$(($(date +%s%N) / 1000000))
+
             . "$file"
+
+            local took=""
+            if [ $is_debug ] ; then
+                end=$(($(date +%s%N) / 1000000))
+                took=$(printf %8s "($(($end - $start))ms)")
+            fi
+
+            superdots-debug "    ${took}${file}"
+
         done
     done
 
