@@ -30,11 +30,12 @@ function _do_lazy_install_hook {
     fi
 
     local exe_name="$1"
-    local hook_fn_name="$2"
-    local check_cmd="$3"
-
     shift
+    local hook_fn_name="$1"
     shift
+    local check_cmd="$1"
+    shift
+    local needs_sudo="$1"
     shift
 
     # this will ignore any functions with the same name
@@ -54,6 +55,11 @@ function _do_lazy_install_hook {
     if ! sd::func::aliased sd::ux::confirm "Do you want to install ${exe_name}?" ; then
         sd::log "Ok, not installing"
         return 1
+    fi
+
+    if [ "$needs_sudo" = true ] ; then
+        sd::log::warn "Prompting for sudo before running install command ..."
+        sudo true
     fi
 
     # now we know it doesn't exist yet, so call the hook function. If the exe
@@ -78,10 +84,11 @@ function sd::lazy_install_hook {
 
     # save an escaped version of the "check command" into check_cmd
     local check_cmd
-    local usage="USAGE: $this_fn [--custom-check CHECK_CMD_STR] COMMAND_NAME INSTALL_FN"
+    local usage="USAGE: $this_fn [--custom-check CHECK_CMD_STR] [--needs-sudo] COMMAND_NAME INSTALL_FN"
+    local needs_sudo=false
 
     while [ $# -ne 0 ] ; do
-        case "$param" in
+        case "$1" in
             --help|-h)
                 sd::log::info "$usage"
                 exit 1
@@ -89,6 +96,11 @@ function sd::lazy_install_hook {
             --custom-check)
                 shift
                 check_cmd="$1"
+                shift
+                ;;
+            --needs-sudo)
+                shift
+                needs_sudo=true
                 ;;
             *)
                 break;
@@ -104,8 +116,8 @@ function sd::lazy_install_hook {
     fi
 
     local exe_name="$1"
-    local hook_exe_name="$2"
     shift
+    local hook_exe_name="$1"
     shift
 
     if [ -z "$check_cmd" ] ; then
@@ -118,7 +130,7 @@ function sd::lazy_install_hook {
 
     read -r -d "" func_def <<EOF
     function ${exe_name} {
-        _do_lazy_install_hook "${exe_name}" "${hook_exe_name}" "${check_cmd}" "\$@"
+        _do_lazy_install_hook "${exe_name}" "${hook_exe_name}" "${check_cmd}" "${needs_sudo}" "\$@"
         return $?
     }
 EOF
