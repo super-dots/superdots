@@ -111,7 +111,7 @@ function sd::log::_switch {
 
     export _SD_LOG_COLOR="$prev_color"
     export _SD_LOG_EXTRA_PREFIX="$prev_extra_prefix"
-    echo -en "${SD_COLOR_RESET}${_SD_LOG_COLOR}"
+    echo -en "${SD_COLOR_RESET}"
 }
 
 # OVERRIDEABLE VIA ALIAS

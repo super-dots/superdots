@@ -207,7 +207,7 @@ function superdots-source-dot {
         for file in "$SUPERDOTS/dots/$order"/*.sh ; do
             if [[ $file =~ "*" ]] ; then continue ; fi
 
-            [ $is_debug ] && start=$(($(date +%s%N) / 1000000))
+            [ $is_debug ] && superdots-debug start=$(($(date +%s%N) / 1000000))
 
             . "$file"
 
@@ -217,7 +217,7 @@ function superdots-source-dot {
                 took=$(printf %8s "($(($end - $start))ms)")
             fi
 
-            superdots-debug "    ${took}${file}"
+            [ $is_debug ] && superdots-debug "    ${took}${file}"
 
         done
     done

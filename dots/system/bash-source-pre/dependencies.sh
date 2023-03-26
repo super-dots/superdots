@@ -8,24 +8,18 @@ function sd::bin_exists {
         echo "Successful exit code means it exists"
     fi
 
-    type -a "$1" 2>&1 | grep -v "is a function" | grep "$1 is /" >/dev/null 2>&1
-}
-
-
-function sd::func_exists {
-    if [[ $# -ne 1 ]] ; then
-        echo "Usage: $0 FUN_NAME"
-        echo
-        echo "Successful exit code means it exists"
-    fi
-
-    [ $(type -t "$1" 2>&1) = "function" ]
+    [[ "$(type -a "$1" 2>&1)" =~ "$1 is /" ]]
 }
 
 
 function _do_lazy_install_hook {
     if [[ $# -lt 2 ]] ; then 
         echo "Usage: $0 EXE_NAME HOOK_FN_NAME ARGS_TO_FWD"
+        echo
+        echo "If the env vars below may be set:"
+        echo ""
+        echo "  NO_CONFIRM - install without confirming"
+        echo "  NO_RUN     - do not run after installing"
         return 1
     fi
 
@@ -52,7 +46,7 @@ function _do_lazy_install_hook {
     sd::log::warn ""
     fn_src "$hook_fn_name" | sd::log::box_indent
 
-    if ! sd::func::aliased sd::ux::confirm "Do you want to install ${exe_name}?" ; then
+    if [ -z "$NO_CONFIRM" ] && ! sd::func::aliased sd::ux::confirm "Do you want to install ${exe_name}?" ; then
         sd::log "Ok, not installing"
         return 1
     fi
@@ -68,14 +62,19 @@ function _do_lazy_install_hook {
 
     if eval "$check_cmd" >/dev/null 2>&1 ; then
         sd::log::success "$exe_name should be available now!"
-        sd::log::debug "$exe_name exists now, unsetting the lazy hook function and reloading"
+        sd::log::debug "$exe_name exists now, unsetting the lazy hook function"
 
         unset -f "$exe_name"
 
-        sd::func::escaped_args --out escaped_args -- $exe_name "$@"
-        sd::log::debug "$exe_name exists now, calling binary with: $escaped_args"
-        "$exe_name" "$@"
-        return $?
+        if [ -z "$NO_RUN" ] ; then
+            sd::func::escaped_args --out escaped_args -- $exe_name "$@"
+            sd::log::debug "$exe_name exists now, calling binary with: $escaped_args"
+
+            "$exe_name" "$@"
+            return $?
+        else
+            return 0
+        fi
     fi
 }
 
@@ -121,17 +120,17 @@ function sd::lazy_install_hook {
     shift
 
     if [ -z "$check_cmd" ] ; then
-        sd::func::escaped_args --out check_cmd -- sd::bin_exists "$exe_name"
+        #sd::func::escaped_args --out check_cmd -- sd::bin_exists "$exe_name"
+        local check_cmd="sd::bin_exists ${exe_name@Q}"
     fi
 
-    if eval "$check_cmd" ; then
+    if $check_cmd ; then
         return 0
     fi
 
     read -r -d "" func_def <<EOF
     function ${exe_name} {
         _do_lazy_install_hook "${exe_name}" "${hook_exe_name}" "${check_cmd}" "${needs_sudo}" "\$@"
-        return $?
     }
 EOF
 
