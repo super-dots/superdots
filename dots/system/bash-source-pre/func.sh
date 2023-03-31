@@ -66,7 +66,7 @@ function _sd::func::do_lazy_create {
     shift
     local init_fn="$1"
     shift
-    local needs_sudo="$1"
+    local interactive="$1"
     shift
 
     sd::log::debug "Lazily creating $target_fn"
@@ -82,12 +82,11 @@ function _sd::func::do_lazy_create {
             return 1
         fi
 
-        if [ "$needs_sudo" = true ] ; then
-            sd::log::debug "Priming sudo ..."
-            sudo echo -n
+        if [ "$interactive" = true ] ; then
+            "$install_fn" "$target_fn"
+        else
+            sd::log::note::command "$install_fn" "$target_fn"
         fi
-
-        "$install_fn" "$target_fn"
     fi
 
     if ! "$check_fn" ; then
@@ -111,9 +110,9 @@ function _sd::func::do_lazy_create {
             --install "$install_fn"
             --init "$init_fn"
         )
-        if [ "$needs_sudo" = true ] ; then
+        if [ "$interative" = true ] ; then
             args+=(
-                --needs-sudo
+                --interactive
             )
         fi
         sd::func::lazy_create "${args[@]}"
@@ -126,13 +125,13 @@ function _sd::func::do_lazy_create {
 
 function sd::func::lazy_create {
     local this_fn="$0"
-    local usage="sd::func::lazy_create --func FUNC_NAME --create CREATE_FUNC_OR_EXE_NAME [--needs-sudo]"
+    local usage="sd::func::lazy_create --func FUNC_NAME --create CREATE_FUNC_OR_EXE_NAME [--interactive|-i]"
 
     local target_fn=""
     local check_fn=""
     local install_fn=""
     local init_fn=""
-    local needs_sudo=false
+    local interactive=false
 
     while [ $# -ne 0 ] ; do
         arg="$1"
@@ -158,8 +157,8 @@ function sd::func::lazy_create {
                 init_fn="$1"
                 shift
                 ;;
-            --needs-sudo)
-                needs_sudo=true
+            --interactive|-i)
+                interactive=true
                 ;;
             *)
                 break;
@@ -197,7 +196,7 @@ function sd::func::lazy_create {
 
     read -r -d "" func_def <<EOF
     function ${target_fn} {
-        _sd::func::do_lazy_create "${target_fn}" "${check_fn}" "${install_fn}" "${init_fn}" "${needs_sudo}" "\$@"
+        _sd::func::do_lazy_create "${target_fn}" "${check_fn}" "${install_fn}" "${init_fn}" "${interactive}" "\$@"
     }
 EOF
 
@@ -268,6 +267,12 @@ function sd::func::escaped_args {
 function sd::func::aliased {
     alias_name=$1
     shift
+
+    if ! [ -z "$NO_ALIAS" ] ; then
+        eval "\\$alias_name \"\$@\""
+        return
+    fi
+
     alias_def=$(alias -p | grep "alias ${alias_name}=")
 
     # if no alias exists, treat it like a normal command and also let it fail

@@ -14,7 +14,7 @@ function sd::bin_exists {
 
 function _do_lazy_install_hook {
     if [[ $# -lt 2 ]] ; then 
-        echo "Usage: $0 EXE_NAME HOOK_FN_NAME ARGS_TO_FWD"
+        echo "Usage: $0 EXE_NAME HOOK_FN_NAME CHECK_CMD INTERACTIVE ARGS_TO_FWD"
         echo
         echo "If the env vars below may be set:"
         echo ""
@@ -29,7 +29,7 @@ function _do_lazy_install_hook {
     shift
     local check_cmd="$1"
     shift
-    local needs_sudo="$1"
+    local interactive="$1"
     shift
 
     # this will ignore any functions with the same name
@@ -51,14 +51,14 @@ function _do_lazy_install_hook {
         return 1
     fi
 
-    if [ "$needs_sudo" = true ] ; then
-        sd::log::warn "Prompting for sudo before running install command ..."
-        sudo true
-    fi
-
     # now we know it doesn't exist yet, so call the hook function. If the exe
     # exists after we call the hook function, then call the exe
-    sd::log::note::command "$hook_fn_name" "$exe_name"
+
+    if [ "$interactive" = true ] ; then
+        NO_ALIAS=1 sd::sudo::auto_drop sd::log::note::command "$hook_fn_name" "$exe_name"
+    else
+        sd::sudo::auto_drop sd::log::note::command "$hook_fn_name" "$exe_name"
+    fi
 
     if eval "$check_cmd" >/dev/null 2>&1 ; then
         sd::log::success "$exe_name should be available now!"
@@ -83,8 +83,8 @@ function sd::lazy_install_hook {
 
     # save an escaped version of the "check command" into check_cmd
     local check_cmd
-    local usage="USAGE: $this_fn [--custom-check CHECK_CMD_STR] [--needs-sudo] COMMAND_NAME INSTALL_FN"
-    local needs_sudo=false
+    local usage="USAGE: $this_fn [--custom-check CHECK_CMD_STR] [--interactive|-i] COMMAND_NAME INSTALL_FN"
+    local interactive=false
 
     while [ $# -ne 0 ] ; do
         case "$1" in
@@ -97,9 +97,9 @@ function sd::lazy_install_hook {
                 check_cmd="$1"
                 shift
                 ;;
-            --needs-sudo)
+            --interactive|-i)
                 shift
-                needs_sudo=true
+                interactive=true
                 ;;
             *)
                 break;
@@ -130,7 +130,7 @@ function sd::lazy_install_hook {
 
     read -r -d "" func_def <<EOF
     function ${exe_name} {
-        _do_lazy_install_hook "${exe_name}" "${hook_exe_name}" "${check_cmd}" "${needs_sudo}" "\$@"
+        _do_lazy_install_hook "${exe_name}" "${hook_exe_name}" "${check_cmd}" "${interactive}" "\$@"
     }
 EOF
 

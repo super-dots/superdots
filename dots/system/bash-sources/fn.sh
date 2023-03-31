@@ -2,7 +2,7 @@
 
 
 function _fn_file_completion {
-    plugin_name="${1:-local}"
+    local plugin_name="${1:-local}"
     for fname in "${SUPERDOTS}"/dots/"$plugin_name"/bash-sources/*.sh ; do
         if [[ $fname =~ '*' ]] ; then
             continue
@@ -17,7 +17,7 @@ function _fn_file_completion {
 
     if [ -z "$1" ] ; then
         # now do all of the non-local plugin/file names
-        for plugin_path in $(ls "${SUPERDOTS}"/dots) ; do
+        for plugin_path in $(\ls "${SUPERDOTS}"/dots) ; do
             if [ "$plugin_path" == "local" ] || [ "$plugin_path" == "system" ] ; then
                 continue
             fi
